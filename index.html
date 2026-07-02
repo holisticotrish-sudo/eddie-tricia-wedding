@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eddie & Tricia | January 16, 2027</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;600&display=swap');
+
+  :root{
+    --cream:#f5ede0;
+    --cream2:#efe3d0;
+    --charcoal:#241f19;
+    --near-black:#161311;
+    --gold:#a9843f;
+    --gold-light:#c9a76a;
+    --gold-deep:#7a5c2a;
+    --red:#a3272c;
+    --red-deep:#7c1d21;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'Cormorant Garamond', serif;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+
+  /* ---------- STAGE 1: RED ENVELOPE ---------- */
+  #envelope-stage{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle at center, rgba(248,240,226,.88) 0%, rgba(236,223,201,.94) 70%),
+      url('photos/web/IMG_4260.jpg') center 20% / cover no-repeat;
+    z-index:50;
+    transition:opacity 1s ease, visibility 1s ease;
+  }
+  #envelope-stage.hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .envelope-wrap{
+    text-align:center;
+  }
+  .envelope-hint{
+    margin-top:28px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    font-family:'Cinzel', serif;
+    font-size:12px;
+    color:var(--gold-deep);
+    opacity:.8;
+    animation:pulse 2s infinite ease-in-out;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:.45;}
+    50%{opacity:1;}
+  }
+  .envelope{
+    position:relative;
+    width:280px;
+    height:190px;
+    cursor:pointer;
+    filter:drop-shadow(0 15px 35px rgba(90,20,20,.35));
+  }
+  .envelope-back{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(160deg, var(--red), var(--red-deep));
+    border:1px solid #5e1518;
+  }
+  .envelope-front{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    height:100%;
+    background:linear-gradient(160deg, var(--red-deep), #6c1a1d);
+    border:1px solid #5e1518;
+    clip-path:polygon(0 25%, 50% 60%, 100% 25%, 100% 100%, 0 100%);
+    z-index:3;
+  }
+  .envelope-front::before{
+    content:"";
+    position:absolute;
+    inset:14px;
+    border:1px solid rgba(201,167,106,.55);
+    pointer-events:none;
+  }
+  .envelope-flap{
+    position:absolute;
+    top:0;left:0;right:0;
+    height:55%;
+    background:linear-gradient(200deg, var(--red), var(--red-deep));
+    border:1px solid #5e1518;
+    clip-path:polygon(0 0, 100% 0, 50% 90%);
+    transform-origin:top center;
+    transform:rotateX(0deg);
+    transition:transform 1s cubic-bezier(.6,-0.1,.3,1.3);
+    z-index:5;
+  }
+  .envelope.open .envelope-flap{
+    transform:rotateX(180deg);
+  }
+  .seal{
+    position:absolute;
+    top:38%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:66px;height:66px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold-deep) 75%);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Cinzel Decorative', serif;
+    font-size:26px;
+    color:#3a2a10;
+    z-index:6;
+    box-shadow:0 3px 10px rgba(0,0,0,.45);
+    transition:opacity .4s ease, transform .4s ease;
+  }
+  .envelope.open .seal{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.4);
+  }
+  .envelope-names{
+    position:absolute;
+    bottom:22px;
+    left:0;right:0;
+    text-align:center;
+    font-family:'Cinzel', serif;
+    letter-spacing:2px;
+    font-size:12px;
+    color:var(--gold-light);
+    z-index:4;
+    opacity:.9;
+  }
+  .card-peek{
+    position:absolute;
+    left:8%;
+    right:8%;
+    top:-6%;
+    height:96%;
+    background:linear-gradient(180deg,var(--cream),var(--cream2));
+    border:1px solid var(--gold);
+    z-index:2;
+    transition:transform 1.1s cubic-bezier(.2,.9,.25,1.1);
+    transform:translateY(0);
+  }
+  .envelope.open .card-peek{
+    transform:translateY(-130px);
+  }
+
+  /* ---------- STAGE 2: MAIN SITE ---------- */
+  #main{
+    position:relative;
+    z-index:1;
+    min-height:100vh;
+  }
+
+  /* ----- Full-bleed hero ----- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px 24px;
+    background:
+      linear-gradient(180deg, rgba(10,8,6,.6) 0%, rgba(10,8,6,.35) 40%, rgba(10,8,6,.72) 100%),
+      url('photos/web/IMG_4260.jpg') center 18% / cover no-repeat;
+    color:#f5ede0;
+  }
+  .hero .motif-row{
+    display:flex;
+    gap:14px;
+    align-items:center;
+    margin-bottom:22px;
+    color:#d4ac5c;
+    font-size:20px;
+    letter-spacing:10px;
+    text-shadow:0 2px 10px rgba(0,0,0,.6);
+  }
+  .hero .kicker{
+    font-family:'Cinzel', serif;
+    font-size:15px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:#f0e4cd;
+    margin-bottom:24px;
+    max-width:500px;
+    text-shadow:0 2px 8px rgba(0,0,0,.6);
+  }
+  h1.title{
+    font-family:'Bodoni Moda', serif;
+    font-weight:600;
+    font-size:clamp(50px,11vw,112px);
+    letter-spacing:2px;
+    margin:0 0 6px;
+    color:#d4ac5c;
+    text-transform:uppercase;
+    text-shadow:0 4px 20px rgba(0,0,0,.65);
+  }
+  h1.title .amp{
+    font-style:italic;
+    font-family:'Bodoni Moda', serif;
+    color:#e9c98a;
+    padding:0 12px;
+  }
+  .hero-sub{
+    font-family:'Cinzel', serif;
+    letter-spacing:4px;
+    font-size:16px;
+    color:#e9dcc0;
+    margin-top:18px;
+    text-shadow:0 2px 8px rgba(0,0,0,.6);
+  }
+  .hero-date{
+    font-family:'Cinzel', serif;
+    letter-spacing:6px;
+    font-size:clamp(20px,2.8vw,28px);
+    font-weight:600;
+    color:#d4ac5c;
+    margin-top:28px;
+    padding-top:24px;
+    border-top:1px solid rgba(201,167,106,.7);
+    text-shadow:0 2px 10px rgba(0,0,0,.6);
+  }
+  .hero-footer-row{
+    position:absolute;
+    left:0;right:0;
+    bottom:34px;
+    text-align:center;
+    font-family:'Cinzel', serif;
+    font-size:12px;
+    letter-spacing:2px;
+    color:#e9dcc0;
+  }
+
+  section{
+    padding:100px 24px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .section-kicker{
+    text-align:center;
+    font-family:'Cinzel', serif;
+    letter-spacing:5px;
+    font-size:12px;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:10px;
+  }
+  h2.section-title{
+    text-align:center;
+    font-family:'Bodoni Moda', serif;
+    font-weight:500;
+    font-size:clamp(28px,4vw,42px);
+    color:var(--charcoal);
+    margin:0 0 50px;
+    letter-spacing:1px;
+  }
+
+  /* ----- Our Love Story: His & Her Story ----- */
+  .love-story{
+    max-width:1100px;
+    margin:0 auto;
+    padding:100px 24px;
+  }
+  .love-collage{
+    display:grid;
+    grid-template-columns:1fr 1.1fr 1fr;
+    gap:16px;
+    margin-bottom:60px;
+    align-items:center;
+  }
+  .love-collage img{
+    width:100%;
+    object-fit:cover;
+    border:1px solid var(--gold);
+    filter:grayscale(20%);
+    display:block;
+  }
+  .love-collage img.side{
+    aspect-ratio:4/5;
+  }
+  .love-collage img.middle{
+    aspect-ratio:4/6;
+  }
+  .his-her{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+  }
+  .story-col-title{
+    font-family:'Bodoni Moda', serif;
+    font-weight:500;
+    font-size:clamp(22px,3vw,28px);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:16px;
+  }
+  .story-col p{
+    font-size:18px;
+    line-height:1.7;
+    color:var(--charcoal);
+    margin:0;
+    font-style:italic;
+  }
+  .love-story-link{
+    text-align:center;
+    margin-top:50px;
+  }
+
+  /* ----- Fancy pill links (used for Read Full Story, FAQ chips, etc.) ----- */
+  .pill-link{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:'Cinzel', serif;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--gold-deep);
+    text-decoration:none;
+    border:1px solid var(--gold);
+    border-radius:999px;
+    padding:12px 26px;
+    background:rgba(169,132,63,.06);
+    transition:all .25s ease;
+  }
+  .pill-link::before, .pill-link::after{
+    content:"✦";
+    font-size:9px;
+    color:var(--gold);
+    transition:color .25s ease;
+  }
+  .pill-link:hover{
+    background:var(--gold-deep);
+    color:#f5ede0;
+    border-color:var(--gold-deep);
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(122,92,42,.35);
+  }
+  .pill-link:hover::before, .pill-link:hover::after{
+    color:#f5ede0;
+  }
+  .pill-link.on-dark{
+    color:#e9dcc0;
+    border-color:var(--gold-light);
+    background:rgba(201,167,106,.08);
+  }
+  .pill-link.on-dark::before, .pill-link.on-dark::after{
+    color:var(--gold-light);
+  }
+  .pill-link.on-dark:hover{
+    background:var(--gold-light);
+    color:#241f19;
+    border-color:var(--gold-light);
+  }
+  .pill-link.on-dark:hover::before, .pill-link.on-dark:hover::after{
+    color:#241f19;
+  }
+
+  /* ----- Schedule (dark contrast section) ----- */
+  .schedule-section{
+    background:var(--near-black);
+    color:#efe3d0;
+    padding:110px 24px;
+  }
+  .schedule-top-photos{
+    max-width:700px;
+    margin:0 auto 70px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  .schedule-top-photos img{
+    width:100%;
+    aspect-ratio:5/4;
+    object-fit:cover;
+    border:1px solid var(--gold);
+    box-shadow:0 14px 30px rgba(0,0,0,.4);
+  }
+  .schedule-inner{
+    max-width:1000px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+  }
+  .schedule-text{text-align:left;}
+  .schedule-collage{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .schedule-collage img{
+    width:100%;
+    aspect-ratio:4/5;
+    object-fit:cover;
+    border:1px solid var(--gold);
+    box-shadow:0 14px 30px rgba(0,0,0,.4);
+  }
+  .schedule-collage img:nth-child(2){
+    margin-top:26px;
+  }
+  .schedule-collage img:nth-child(3){
+    margin-top:-26px;
+  }
+  .schedule-title{
+    font-family:'Bodoni Moda', serif;
+    font-weight:500;
+    font-size:clamp(30px,4vw,44px);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    line-height:1.15;
+    margin:0 0 12px;
+    color:#f5ede0;
+  }
+  .schedule-kicker{
+    font-family:'Cinzel', serif;
+    letter-spacing:4px;
+    font-size:11px;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:6px;
+  }
+  .schedule-list{
+    margin-top:56px;
+  }
+  .schedule-row{
+    display:flex;
+    justify-content:flex-start;
+    align-items:baseline;
+    gap:24px;
+    padding:22px 0;
+    border-bottom:1px solid rgba(201,167,106,.25);
+  }
+  .schedule-row:first-child{
+    border-top:1px solid rgba(201,167,106,.25);
+  }
+  .schedule-row .date{
+    color:var(--gold-light);
+    font-family:'Cinzel', serif;
+    font-size:14px;
+    letter-spacing:2px;
+    white-space:nowrap;
+    min-width:110px;
+  }
+  .schedule-row .what{
+    color:#f5ede0;
+    font-family:'Bodoni Moda', serif;
+    font-size:clamp(18px,2.4vw,24px);
+    text-align:left;
+  }
+  .schedule-row .tag{
+    font-family:'Cinzel', serif;
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    border:1px solid rgba(201,167,106,.5);
+    border-radius:999px;
+    padding:3px 10px;
+    margin-left:10px;
+    white-space:nowrap;
+    font-style:normal;
+    vertical-align:middle;
+  }
+
+  /* ----- FAQ (within schedule section) ----- */
+  .faq-block{
+    margin-top:56px;
+    padding-top:46px;
+    border-top:1px solid rgba(201,167,106,.25);
+  }
+  .faq-kicker{
+    font-family:'Cinzel', serif;
+    letter-spacing:4px;
+    font-size:11px;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:16px;
+  }
+  .faq-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:24px;
+  }
+  .faq-chip{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:15px;
+    color:#e9dcc0;
+    border:1px solid rgba(201,167,106,.45);
+    border-radius:999px;
+    padding:8px 18px;
+    background:rgba(201,167,106,.06);
+  }
+
+  .cta-video-section{
+    position:relative;
+    min-height:88vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:60px 24px;
+    overflow:hidden;
+  }
+  .cta-video-section video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:0;
+  }
+  .cta-video-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(22,19,17,1) 0%, rgba(22,19,17,.55) 12%, rgba(10,8,6,.42) 45%, rgba(10,8,6,.8) 100%);
+    z-index:1;
+  }
+  .cta-video-content{
+    position:relative;
+    z-index:2;
+    color:#f5ede0;
+  }
+  .cta-video-content .section-kicker{
+    color:#d4ac5c;
+    font-size:14px;
+    letter-spacing:6px;
+    text-shadow:0 2px 8px rgba(0,0,0,.6);
+  }
+  .cta-video-content h2.section-title{
+    color:#d4ac5c;
+    font-size:clamp(32px,5vw,52px);
+    margin-bottom:22px;
+    text-shadow:0 4px 18px rgba(0,0,0,.65);
+  }
+  .cta-video-content p.sub{
+    color:#f0e4cd;
+    font-size:20px;
+    max-width:500px;
+    margin:0 auto 10px;
+    text-shadow:0 2px 8px rgba(0,0,0,.55);
+  }
+  .cta-video-content .rsvp-deadline{
+    color:#e8a5a5;
+    text-shadow:0 2px 8px rgba(0,0,0,.6);
+  }
+
+  .motif-divider{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    margin:0;
+    padding:60px 24px 0;
+    color:var(--red);
+  }
+  .motif-divider .line{
+    flex:1;
+    max-width:180px;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .motif-divider .sym{
+    font-size:20px;
+    letter-spacing:6px;
+  }
+  .motif-divider.on-dark{
+    background:var(--near-black);
+    padding:70px 24px;
+    color:var(--gold-light);
+  }
+  .motif-divider.on-dark .line{
+    background:linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  }
+
+  .rsvp-box{
+    text-align:center;
+    padding:70px 30px;
+    border:1px solid var(--gold);
+    background:linear-gradient(180deg, rgba(169,132,63,.08), transparent);
+    position:relative;
+  }
+  .rsvp-box p.sub{
+    font-size:18px;
+    color:var(--charcoal);
+    max-width:480px;
+    margin:0 auto 8px;
+  }
+  .rsvp-deadline{
+    font-family:'Cinzel', serif;
+    letter-spacing:3px;
+    font-size:12px;
+    color:var(--red);
+    text-transform:uppercase;
+    margin-bottom:28px;
+  }
+  .btn{
+    display:inline-block;
+    font-family:'Cinzel', serif;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    font-size:13px;
+    padding:16px 42px;
+    background:linear-gradient(180deg, var(--red), var(--red-deep));
+    color:#f5ede0;
+    text-decoration:none;
+    border:none;
+    transition:transform .25s ease, box-shadow .25s ease;
+    box-shadow:0 6px 18px rgba(163,39,44,.3);
+  }
+  .btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 26px rgba(163,39,44,.45);
+  }
+
+  footer{
+    text-align:center;
+    padding:50px 24px 70px;
+    font-family:'Cinzel', serif;
+    font-size:11px;
+    letter-spacing:3px;
+    color:var(--gold-deep);
+    text-transform:uppercase;
+  }
+
+  @media (max-width:900px){
+    .his-her{
+      grid-template-columns:1fr;
+      gap:40px;
+      text-align:center;
+    }
+  }
+
+  @media (max-width:900px){
+    .schedule-inner{
+      grid-template-columns:1fr;
+      text-align:center;
+    }
+    .schedule-text{text-align:center;}
+    .schedule-row{justify-content:center;}
+    .faq-chips{justify-content:center;}
+    .schedule-collage{
+      max-width:380px;
+      margin:0 auto;
+    }
+  }
+
+  @media (max-width:640px){
+    .love-collage{
+      grid-template-columns:repeat(3,1fr);
+    }
+    .love-collage img.middle{aspect-ratio:4/5;}
+  }
+</style>
+</head>
+<body>
+
+  <div id="envelope-stage">
+    <div class="envelope-wrap">
+      <div class="envelope" id="envelope" onclick="openEnvelope()">
+        <div class="card-peek"></div>
+        <div class="envelope-back"></div>
+        <div class="envelope-front"></div>
+        <div class="envelope-flap"></div>
+        <div class="seal">囍</div>
+        <div class="envelope-names">Eddie &amp; Tricia</div>
+      </div>
+      <div class="envelope-hint">Tap the envelope to open</div>
+    </div>
+  </div>
+
+  <div id="main">
+
+    <!-- Full-bleed hero -->
+    <section class="hero">
+      <div class="motif-row">◆ 囍 ◆</div>
+      <div class="kicker">We'd love for you to celebrate our wedding</div>
+      <h1 class="title">Eddie<span class="amp">&amp;</span>Tricia</h1>
+      <div class="hero-sub">FULLERTON, CALIFORNIA</div>
+      <div class="hero-date">JANUARY 16, 2027</div>
+    </section>
+
+    <!-- His & Her Story -->
+    <section class="love-story">
+      <div class="section-kicker">A Little Preview</div>
+      <h2 class="section-title">Our Love Story</h2>
+      <div class="love-collage">
+        <img class="side" src="photos/web/IMG_2928.jpg" alt="Eddie and Tricia">
+        <img class="middle" src="photos/web/IMG_2981.jpg" alt="Eddie and Tricia">
+        <img class="side" src="photos/web/IMG_2972.jpg" alt="Eddie and Tricia">
+      </div>
+      <div class="his-her">
+        <div class="story-col">
+          <div class="story-col-title">His Story</div>
+          <p>"What if she doesn't feel the same way?" A Tinder date that turned into a month of falling, until Eddie couldn't hold it back any longer&hellip;</p>
+        </div>
+        <div class="story-col">
+          <div class="story-col-title">Her Story</div>
+          <p>Half a bottle of soju in, dancing like nobody was watching — a fresh start in LA led her right to him&hellip;</p>
+        </div>
+      </div>
+      <div class="love-story-link">
+        <a class="pill-link" href="https://www.zola.com/wedding/eddieandtricia" target="_blank" rel="noopener">Read Our Full Story</a>
+      </div>
+    </section>
+
+    <!-- Schedule of Events -->
+    <section class="schedule-section">
+      <div class="schedule-top-photos">
+        <img src="photos/web/IMG_6182.jpg" alt="Eddie and Tricia">
+        <img src="photos/web/IMG_0449.jpg" alt="Eddie and Tricia" style="object-position:center 20%;">
+      </div>
+      <div class="schedule-inner">
+        <div class="schedule-text">
+          <h2 class="schedule-title">Schedule of Events</h2>
+          <div class="schedule-list">
+            <div class="schedule-row"><span class="date">January 15</span><span class="what">Tea Ceremony <span class="tag">Family Only</span></span></div>
+            <div class="schedule-row"><span class="date">January 15</span><span class="what">Pre-Party Meetup</span></div>
+            <div class="schedule-row"><span class="date">January 16</span><span class="what">Wedding Day</span></div>
+          </div>
+
+          <div class="faq-block">
+            <div class="faq-kicker">Good To Know</div>
+            <div class="faq-chips">
+              <span class="faq-chip">Dress Code</span>
+              <span class="faq-chip">Parking</span>
+              <span class="faq-chip">Plus One</span>
+              <span class="faq-chip">RSVP Deadline</span>
+            </div>
+            <a class="pill-link on-dark" href="https://www.zola.com/wedding/eddieandtricia/faq" target="_blank" rel="noopener">View All FAQs</a>
+          </div>
+        </div>
+        <div class="schedule-collage">
+          <img src="photos/web/IMG_7007.jpg" alt="Eddie and Tricia">
+          <img src="photos/web/IMG_4264.jpg" alt="Eddie and Tricia's ring">
+        </div>
+      </div>
+    </section>
+
+    <div class="motif-divider on-dark">
+      <div class="line"></div>
+      <div class="sym">囍　◆　복</div>
+      <div class="line"></div>
+    </div>
+
+    <!-- Video CTA leading straight into RSVP -->
+    <section class="cta-video-section">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="photos/web/taiwan.mp4" type="video/mp4">
+      </video>
+      <div class="cta-video-overlay"></div>
+      <div class="cta-video-content">
+        <h2 class="section-title">Will You Celebrate With Us?</h2>
+        <div class="rsvp-deadline">Please RSVP by November 11</div>
+        <a class="pill-link on-dark" href="https://www.zola.com/wedding/eddieandtricia/rsvp" target="_blank" rel="noopener">RSVP Now</a>
+      </div>
+    </section>
+
+    <footer>Eddie &amp; Tricia &middot; January 16, 2027 &middot; Fullerton, California</footer>
+  </div>
+
+<script>
+  function openEnvelope(){
+    const env = document.getElementById('envelope');
+    if(env.classList.contains('open')) return;
+    env.classList.add('open');
+    setTimeout(()=>{
+      document.getElementById('envelope-stage').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }, 900);
+  }
+</script>
+
+</body>
+</html>
