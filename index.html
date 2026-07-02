@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eddie<span>&</span>Tricia | January 16, 2027</title>
+<title>Eddie & Tricia | January 16, 2027</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;600&display=swap');
 
@@ -37,7 +37,7 @@
     justify-content:center;
     background:
       radial-gradient(circle at center, rgba(248,240,226,.88) 0%, rgba(236,223,201,.94) 70%),
-      url('photos/web/IMG_4260.jpg') center 20% / cover no-repeat;
+      url('IMG_4260.jpg') center 20% / cover no-repeat;
     z-index:50;
     transition:opacity 1s ease, visibility 1s ease;
   }
@@ -174,7 +174,7 @@
     padding:60px 24px;
     background:
       linear-gradient(180deg, rgba(10,8,6,.6) 0%, rgba(10,8,6,.35) 40%, rgba(10,8,6,.72) 100%),
-      url('photos/web/IMG_4260.jpg') center 18% / cover no-repeat;
+      url('IMG_4260.jpg') center 18% / cover no-repeat;
     color:#f5ede0;
   }
   .hero .motif-row{
@@ -200,12 +200,14 @@
   h1.title{
     font-family:'Bodoni Moda', serif;
     font-weight:600;
-    font-size:clamp(50px,11vw,112px);
+    font-size:clamp(34px,11vw,112px);
     letter-spacing:2px;
     margin:0 0 6px;
     color:#d4ac5c;
     text-transform:uppercase;
     text-shadow:0 4px 20px rgba(0,0,0,.65);
+    max-width:100%;
+    word-wrap:break-word;
   }
   h1.title .amp{
     font-style:italic;
@@ -668,6 +670,23 @@
     }
     .love-collage img.middle{aspect-ratio:4/5;}
   }
+
+  @media (max-width:480px){
+    .hero{padding:40px 16px;}
+    h1.title{
+      letter-spacing:0.5px;
+      font-size:clamp(30px,10vw,50px);
+    }
+    h1.title .amp{padding:0 6px;}
+    .hero .kicker{font-size:13px;letter-spacing:2px;max-width:300px;}
+    .hero-sub{font-size:13px;letter-spacing:2px;}
+    .hero-date{font-size:16px;letter-spacing:3px;}
+    .hero .motif-row{font-size:16px;letter-spacing:6px;}
+    section{padding:70px 16px;}
+    .schedule-section{padding:70px 16px;}
+    .schedule-top-photos{gap:10px;}
+    .cta-video-content h2.section-title{font-size:28px;}
+  }
 </style>
 </head>
 <body>
@@ -692,7 +711,7 @@
     <section class="hero">
       <div class="motif-row">◆ 囍 ◆</div>
       <div class="kicker">We'd love for you to celebrate our wedding</div>
-      <h1 class="title">Eddie<span class="amp">&amp;</span>Tricia</h1>
+      <h1 class="title">Eddie <span class="amp">&amp;</span> Tricia</h1>
       <div class="hero-sub">FULLERTON, CALIFORNIA</div>
       <div class="hero-date">JANUARY 16, 2027</div>
     </section>
@@ -702,9 +721,9 @@
       <div class="section-kicker">A Little Preview</div>
       <h2 class="section-title">Our Love Story</h2>
       <div class="love-collage">
-        <img class="side" src="photos/web/IMG_2928.jpg" alt="Eddie and Tricia">
-        <img class="middle" src="photos/web/IMG_2981.jpg" alt="Eddie and Tricia">
-        <img class="side" src="photos/web/IMG_2972.jpg" alt="Eddie and Tricia">
+        <img class="side" src="IMG_2928.jpg" alt="Eddie and Tricia">
+        <img class="middle" src="IMG_2981.jpg" alt="Eddie and Tricia">
+        <img class="side" src="IMG_2972.jpg" alt="Eddie and Tricia">
       </div>
       <div class="his-her">
         <div class="story-col">
@@ -724,8 +743,8 @@
     <!-- Schedule of Events -->
     <section class="schedule-section">
       <div class="schedule-top-photos">
-        <img src="photos/web/IMG_6182.jpg" alt="Eddie and Tricia">
-        <img src="photos/web/IMG_0449.jpg" alt="Eddie and Tricia" style="object-position:center 20%;">
+        <img src="IMG_6182.jpg" alt="Eddie and Tricia">
+        <img src="IMG_0449.jpg" alt="Eddie and Tricia" style="object-position:center 20%;">
       </div>
       <div class="schedule-inner">
         <div class="schedule-text">
@@ -748,8 +767,8 @@
           </div>
         </div>
         <div class="schedule-collage">
-          <img src="photos/web/IMG_7007.jpg" alt="Eddie and Tricia">
-          <img src="photos/web/IMG_4264.jpg" alt="Eddie and Tricia's ring">
+          <img src="IMG_7007.jpg" alt="Eddie and Tricia">
+          <img src="IMG_4264.jpg" alt="Eddie and Tricia's ring">
         </div>
       </div>
     </section>
@@ -763,7 +782,7 @@
     <!-- Video CTA leading straight into RSVP -->
     <section class="cta-video-section">
       <video autoplay muted loop playsinline preload="auto">
-        <source src="photos/web/taiwan.mp4" type="video/mp4">
+        <source src="taiwan.mp4" type="video/mp4">
       </video>
       <div class="cta-video-overlay"></div>
       <div class="cta-video-content">
